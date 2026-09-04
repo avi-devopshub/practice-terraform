@@ -48,7 +48,7 @@ resource "aws_eip" "nat_eip"{
 
 resource "aws_nat_gateway" "nat"{
     allocation_id = aws_eip.nat_eip.id
-    subnet_id = aws_subnet.public.id
+    subnet_id = aws_subnet.public_1.id
     tags = {
         Name = "nat"
     }
@@ -68,16 +68,10 @@ resource "aws_route_table" "public_rt"{
 resource "aws_route_table_association" "public_rt_asso"{
     subnet_id = aws_subnet.public_1.id
     route_table_id = aws_route_table.public_rt.id
-    tags = {
-        Name = "public-rt-asso"
-    }
 }
 resource "aws_route_table_association" "public_2_rt_asso"{
     subnet_id = aws_subnet.public_2.id
     route_table_id = aws_route_table.public_rt.id
-    tags = {
-        Name = "public-rt-asso"
-    }
 }
 
 resource "aws_route_table" "private_rt"{
