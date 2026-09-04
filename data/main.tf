@@ -53,6 +53,7 @@ resource "aws_lb" "app_lb"{
     security_groups = [aws_security_group.alb_sg.id]
     subnets = [data.aws_subnets.default.ids]
 }
+#Creating Listener
 resource "aws_alb_listener" "listener"{
     load_balancer_arn = aws_lb.app_lb.arn
     port = 80
@@ -61,4 +62,29 @@ resource "aws_alb_listener" "listener"{
         type = "forward"
         target_group_arn = alb_lb_target_group.tg.arn
     }
+}
+#Launch Template
+resource "aws_launch_template" "lt"{
+    name = "lt"
+    image_id = "ami-01a00762f46d584a1"
+    key_name = "mumbai"
+    instance_type = "t3.micro"
+    vpc_security_group_ids = [aws_security_group.alb_sg.id]
+    user_data = filebase64("/root/practice-terraform/data/user_data.sh")
+}
+#Auto Scaling
+resource "aws_autoscaling_group" "asg"{
+    name = "asg"
+    desired_capacity = 2
+    min_size = 2
+    max_size = 4
+    health_check_type = group
+    target_group_arns = [alb_lb_target_group.tg.arn]
+    vpc_zone_identifier = [data.aws_subnets.default.ids]
+    launch_template{
+        id = aws_launch_template.lt.id
+        version = "$Latest"
+    }
+
+    
 }
