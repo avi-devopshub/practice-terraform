@@ -36,7 +36,7 @@ resource "aws_security_group" "alb_sg"{
     }
 }
 #Creating ALB target Group
-resource "alb_lb_target_group" "tg"{
+resource "aws_lb_target_group" "tg"{
     name = "tg"
     port = 80
     protocol = "HTTP"
