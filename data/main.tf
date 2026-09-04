@@ -60,7 +60,7 @@ resource "aws_alb_listener" "listener"{
     protocol = "HTTP"
     default_action {
         type = "forward"
-        target_group_arn = alb_lb_target_group.tg.arn
+        target_group_arn = aws_lb_target_group.tg.arn
     }
 }
 #Launch Template
@@ -80,7 +80,7 @@ resource "aws_autoscaling_group" "asg"{
     max_size = 4
     health_check_type = "ELB"
     target_group_arns = [aws_lb_target_group.tg.arn]
-    vpc_zone_identifier = [data.aws_subnets.default.ids]
+    vpc_zone_identifier = data.aws_subnets.default.ids
     launch_template{
         id = aws_launch_template.lt.id
         version = "$Latest"
