@@ -17,7 +17,7 @@ resource "aws_subnet" "public_1" {
 resource "aws_subnet" "public_2" {
   cidr_block = "10.0.32.0/20"
   vpc_id = aws_vpc.vpc.id
-  availability_zone = "ap-south-1a"
+  availability_zone = "ap-south-1b"
   tags = {
     Name = "public-subnet-2"
   }
