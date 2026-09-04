@@ -51,7 +51,7 @@ resource "aws_lb" "app_lb"{
     load_balancer_type = "application"
     internal = false
     security_groups = [aws_security_group.alb_sg.id]
-    subnets = [data.aws_subnets.default.ids]
+    subnets = data.aws_subnets.default.ids
 }
 #Creating Listener
 resource "aws_alb_listener" "listener"{
@@ -65,7 +65,7 @@ resource "aws_alb_listener" "listener"{
 }
 #Launch Template
 resource "aws_launch_template" "lt"{
-    name = "lt"
+    name = "mylt"
     image_id = "ami-01a00762f46d584a1"
     key_name = "mumbai"
     instance_type = "t3.micro"
